@@ -10,10 +10,8 @@ export async function middleware(req: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
-          return req.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
+        getAll: () => req.cookies.getAll(),
+        setAll: (cookiesToSet) => {
           cookiesToSet.forEach(({ name, value, options }) => {
             res.cookies.set(name, value, options)
           })
@@ -22,11 +20,10 @@ export async function middleware(req: NextRequest) {
     }
   )
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  const { data: { session } } = await supabase.auth.getSession()
 
-  const isLoginPage = req.nextUrl.pathname.startsWith('/login')
+  const pathname = req.nextUrl.pathname
+  const isLoginPage = pathname === '/login'
 
   if (!session && !isLoginPage) {
     return NextResponse.redirect(new URL('/login', req.url))
@@ -40,5 +37,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next|favicon.ico).*)'],
+  matcher: ['/((?!_next|api|auth|favicon.ico).*)'],
 }
