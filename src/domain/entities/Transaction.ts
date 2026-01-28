@@ -36,4 +36,25 @@ export class Transaction {
       props.category,
     );
   }
+
+  static fromPersistence(props: {
+    id: string
+    type: 'SALE' | 'EXPENSE'
+    price: number
+    data: Date
+    productId?: string
+    amount?: number
+    category?: string
+  }) {
+    return new Transaction(
+      props.id,
+      props.type,
+      props.price,
+      props.data,
+      props.productId,
+      props.amount,
+      props.category
+    )
+  }
+  
 }
