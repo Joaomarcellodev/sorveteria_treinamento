@@ -1,11 +1,11 @@
 export class Product {
-  constructor(
+  private constructor(
     public readonly id: string,
-    private name: string,
-    private type: "SIMPLE" | "COVERGE" | "CREAMY",
-    private priceSale: number,
-    private amountStock: number,
-    private amountMin: number = 50,
+    public name: string,
+    public type: "SIMPLE" | "COVERGE" | "CREAMY",
+    public priceSale: number,
+    public amountStock: number,
+    public amountMin: number = 50,
   ) {}
 
   reduceStock(amount: number) {
@@ -35,8 +35,8 @@ export class Product {
   }
 
   changeMinimumStock(amount: number) {
-    if (amount < 0) throw new Error('Invalid minimum stock')
-    this.amountMin = amount
+    if (amount < 0) throw new Error("Invalid minimum stock");
+    this.amountMin = amount;
   }
 
   changePriceSale(price: number) {
@@ -46,7 +46,7 @@ export class Product {
     this.priceSale = price;
   }
 
-   snapshot() {
+  snapshot() {
     return {
       id: this.id,
       name: this.name,
@@ -54,8 +54,26 @@ export class Product {
       priceSale: this.priceSale,
       amountStock: this.amountStock,
       amountMin: this.amountMin,
-    }
+    };
   }
 
-
+  static fromPersistence(props: {
+    id: string;
+    name: string;
+    type: "SIMPLE" | "COVERGE" | "CREAMY";
+    priceSale: number;
+    amountStock: number;
+    amountMin: number;
+   
+  }) {
+    return new Product(
+      props.id,
+      props.name,
+      props.type,
+      props.priceSale,
+      props.amountStock,
+      props.amountMin,
+    )
+  }
+  
 }

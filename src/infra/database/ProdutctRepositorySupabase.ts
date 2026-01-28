@@ -1,6 +1,7 @@
 
 import { Product } from '../../domain/entities/Product'
 import { ProductRepository } from '../../domain/repositories/ProductRepository'
+import { ProductMapper } from '../mappers/ProductMapper'
 import { supabase } from './SupabaseClient'
 
 export class ProductRepositorySupabase implements ProductRepository {
@@ -14,14 +15,7 @@ export class ProductRepositorySupabase implements ProductRepository {
 
     if (error || !data) return null
 
-    return new Product(
-      data.id,
-      data.name,
-      data.type,
-      Number(data.price_sale),
-      data.amount_stock,
-      data.amount_min
-    )
+     return ProductMapper.toDomain(data)
   }
 
   async save(product: Product): Promise<void> {
