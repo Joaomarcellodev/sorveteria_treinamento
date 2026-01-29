@@ -3,8 +3,8 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase/client"
-import { Input } from "../components/Input"
-import { Button } from "../components/Button"
+import { Input } from "../../components/Input"
+import { Button } from "../../components/Button"
 
 export default function LoginPage() {
   const router = useRouter()
